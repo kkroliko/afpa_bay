@@ -8,17 +8,18 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
 
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"> 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-</head>
+	<head>
+	    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"> 
+	    <link rel="stylesheet" href="css/bootstrap.min.css">
+	    <link rel="stylesheet" href="css/style.css">
+	    <script src='https://www.google.com/recaptcha/api.js'></script>
+	</head>
+
     <body>
 
 		<header> 
 					<?php
-     					include'HUpload.php';
+     					include'header.php';
  					?>  
         </header>
 			        <?php if (isset($_SESSION['id'])) 
@@ -35,7 +36,7 @@ and open the template in the editor.
 					         			<h3>Inscription</h3>
 					         			<input class="search-query" type="text" placeholder="Identifiant" name='pseudo'>
 					          			</br>
-					          			<input class="search-query" type="text" placeholder="Mot de passe" name='pass'>
+					          			<input class="search-query" type="password" placeholder="Mot de passe" name='pass'>
 					          			</br>
 					         			<input class="search-query" type="email" placeholder="Adresse email" name='email'>
 					         			</br>

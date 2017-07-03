@@ -21,14 +21,18 @@ and open the template in the editor.
           include'header.php';
         ?>        
         </header> 
- 
-        <main>        
+        
+        <main>   
+                <form method="GET" class="navbar-search recherche"  >                      
+                    <input type="search" name="q" id="search" placeholder="Recherche..">
+                    <input type="submit" value="Valider" />
+                </form>     
             
         <?php
         include 'films.php';
         ?>
         </main>
-         
+   
         <footer>
                   
         <?php

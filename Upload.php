@@ -20,7 +20,7 @@ and open the template in the editor.
         <header class="container-fluid">
             
         <?php
-          include'HUpload.php';
+          include'header.php';
         ?>        
         </header> 
  

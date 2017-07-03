@@ -18,9 +18,25 @@ class BDDAFPA
 			}
     }
 
+    function getgenreid($genres)
+    {
+    						 $bdd2 = BDDAFPA::connectdb();
+                             $getGenre = $bdd2->prepare('SELECT * FROM Genres WHERE genres = :genres');
+					         $getGenre->bindValue(':genres', $genres);
+					         $getGenre->execute();
+					         $result = $getGenre->fetch();
+					         $genre = $result['id'];
+					         return $genre;
+
+
+
+
+    }
+
   	function affiche_list()
 
   	{
+
 	            $bdd= BDDAFPA::connectdb();
 			    $reponse = $bdd->query('SELECT * from Film');
 					if(isset($_GET['q']) AND !empty($_GET['q']))
@@ -31,29 +47,35 @@ class BDDAFPA
 									  $reponse->bindParam(':q', $q);
 									  $reponse->execute();
 								}
-			    while ($donnees = $reponse->fetch())
+								
+			   		while ($donnees = $reponse->fetch())
 
-			    	{
-			?>
-						<article class="article container">
-						    <div class="format container">
-						        <a href="<?php echo $donnees['trailer'];?>" target="_blank"><img src="<?php echo $donnees['image'];?>" class="image col-xs-12 col-sm-12 col-md-3 col-lg-3" ></a>
-						        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-						            <div><h2> <?php echo $donnees['titre'];?></h2></div>
-						            <div><h4>Réalisateur : <?php echo $donnees['realisateur'];?></h4></div>
-						            <div><h4>Acteurs : <?php echo $donnees['acteurs'];?></h4></div>
-						            <div><h4>Nationalité : <?php echo $donnees['nationalite'];?></h4></div>
-						            <div><h4>Genre : <?php echo $donnees['genres'];?></h4></div>
-						            <div><h4>Année : <?php echo $donnees['date_sortie'];?></h4></div>
-						        </div>
-						    </div>
-						    <div class="syno"><h3>Synopsis : </h3><p><?php echo $donnees['synopsis'];?></p>
-						    </div>
-						</article>
-						<input type="button" id="le_bouton" value="Retour en haut" OnClick=window.location.href="Accueil.php#">
+					    	{
+					?>
+								<article class="article container">
+								    <div class="format container">
+
+								        <a href="<?php echo $donnees['trailer'];?>" target="_blank"><img src="<?php echo $donnees['image'];?>" class="image col-xs-12 col-sm-12 col-md-3 col-lg-3" ></a>
+								        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+								            <div><h2> <?php echo $donnees['titre'];?></h2></div>
+								            <div><h4>Réalisateur : <?php echo $donnees['realisateur'];?></h4></div>
+								            <div><h4>Acteurs : <?php echo $donnees['acteurs'];?></h4></div>
+								            <div><h4>Nationalité : <?php echo $donnees['nationalite'];?></h4></div>
+								            <div><h4>Genre : <?php echo $donnees['genres'];?></h4></div>
+								            <div><h4>Année : <?php echo $donnees['date_sortie'];?></h4></div>
+								            <h4><input type="checkbox" name="vu" >Vu</h4>
+								        </div>
+								    </div>
+								    <div class="syno"><h3>Synopsis : </h3><p><?php echo $donnees['synopsis'];?></p>
+								    </div>
+								</article>
+								<input type="button" id="le_bouton" value="Retour en haut" OnClick=window.location.href="Accueil.php#">
 		    <?php   
+
 			   		}
+	
 	}
+
 
     function register()
 
@@ -157,6 +179,7 @@ class BDDAFPA
 
     {
 			    $bdd= BDDAFPA::connectdb(); 
+			    $bdd2 = BDDAFPA::connectdb(); 
 			    $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_STRING);
 			    $trailer = filter_input(INPUT_POST, 'trailer', FILTER_SANITIZE_STRING);
 			    $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_STRING);
@@ -169,17 +192,19 @@ class BDDAFPA
 					 
 					    if ($titre && $realisateur && $acteurs )
 					    {
-					         $stmt = $bdd->prepare('
-					             INSERT INTO Film ( image, trailer, titre, realisateur, acteurs, nationalite, genres, date_sortie, synopsis)
-					                 VALUES ( :image, :trailer, :titre, :realisateur, :acteurs, :nationalite, :genres, :date_sortie, :synopsis)');
+					         $genre = BDDAFPA::getgenreid($genres);
+
+
+					         $stmt = $bdd->prepare('INSERT INTO Film (image, trailer, titre, realisateur, acteurs, nationalite, date_sortie, genres, synopsis)
+					                 				VALUES ( :image, :trailer, :titre, :realisateur, :acteurs, :nationalite, :date_sortie, :genre, :synopsis)');
 					         $stmt->bindValue(':image', $image, PDO::PARAM_STR);
 					         $stmt->bindValue(':trailer', $trailer, PDO::PARAM_STR);
 					         $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
 					         $stmt->bindValue(':realisateur', $realisateur, PDO::PARAM_STR);
 					         $stmt->bindValue(':acteurs', $acteurs, PDO::PARAM_STR);
 					         $stmt->bindValue(':nationalite', $nationalite, PDO::PARAM_STR);
-					         $stmt->bindValue(':genres', $genres, PDO::PARAM_STR);  
 					         $stmt->bindValue(':date_sortie', $date_sortie, PDO::PARAM_STR);
+					         $stmt->bindValue(':genre', $genre, PDO::PARAM_STR);
 					         $stmt->bindValue(':synopsis', $synopsis, PDO::PARAM_STR);
 					         
 					         $res = $stmt->execute();
@@ -205,7 +230,6 @@ class BDDAFPA
 					        echo '<p class="alert">*Tous les champs sont obligatoires</p>';
 					        
 					    }
-	}
-
+	}		
 }
 ?>

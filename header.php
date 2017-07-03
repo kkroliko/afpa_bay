@@ -3,12 +3,14 @@ session_start();
 ?>
 
 <div class="container">   
-            <h1 class="col-xs-12 col-sm-12 col-md-4 col-lg-4">AFPA BAY</h1>
-            <input id = "logout" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" type="button"  value="logout" OnClick=window.location.href="logout.php#">
+            <h1 class="col-xs-12 col-sm-12 col-md-4 col-lg-4">AFPA BAY</h1> 
+            
+       
         <?php 
             			if (isset($_SESSION['pseudo']))
 
               				{
+                        echo '<input id = "logout" class="col-xs-4 col-sm-4 col-md-4 col-lg-4" type="button"  value="logout" OnClick=window.location.href="logout.php#"> ';
                   			echo 'Vous êtes connecté ' . $_SESSION['pseudo'];
               				} 
             			else
@@ -28,11 +30,6 @@ session_start();
                         <li class="col-xs-12 col-sm-12 col-md-3 col-lg-3"> <a href="inscription.php#">Inscription</a> </li>
                      	 	</br>
                      	 	</br>
-                          <form method="GET" class="navbar-search recherche"  >
-                             		</br>
-                                <input type="search" name="q" placeholder="Recherche..">
-                                <input type="submit" value="Valider" />
-  						            </form>
                     </ul>
                   </div>
                 </div>

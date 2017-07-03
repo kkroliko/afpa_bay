@@ -18,7 +18,7 @@ and open the template in the editor.
 
     <header> 
           <?php
-              include'HUpload.php';
+              include'header.php';
           ?>  
         </header>
               <?php if (isset($_SESSION['id'])) 
